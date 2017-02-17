@@ -67,7 +67,9 @@ uis.directive('uiSelectChoices',
           if(newValue && !$select.open && $select.multiple) $select.activate(false, true);
           $select.activeIndex = $select.tagging.isActivated ? -1 : 0;
           if (!attrs.minimumInputLength || $select.search.length >= attrs.minimumInputLength) {
-            $select.refresh(attrs.refresh);
+            if ($select.open) {
+			  $select.refresh(attrs.refresh);
+			}
           } else {
             $select.items = [];
           }

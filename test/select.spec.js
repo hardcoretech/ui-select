@@ -549,7 +549,7 @@ describe('ui-select tests', function() {
 
     // Trigger clear.
     el.find('.select2-search-choice-close').click();
-    expect(scope.selection.selected).toEqual(undefined);
+    expect(scope.selection.selected).toEqual(null);
 
     // If there is no selection it the X icon should be gone.
     expect(el.find('.select2-search-choice-close').length).toEqual(0);

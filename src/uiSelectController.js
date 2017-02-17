@@ -377,7 +377,7 @@ uis.controller('uiSelectCtrl',
 
   // When the user selects an item with ENTER or clicks the dropdown
   ctrl.select = function(item, skipFocusser, $event) {
-    if (item === undefined || !_isItemDisabled(item)) {
+    if (item === undefined || item === null || !_isItemDisabled(item)) {
 
       if ( ! ctrl.items && ! ctrl.search && ! ctrl.tagging.isActivated) return;
 
@@ -391,7 +391,7 @@ uis.controller('uiSelectCtrl',
           // if taggingLabel is disabled and item is undefined we pull from ctrl.search
           if ( ctrl.taggingLabel === false ) {
             if ( ctrl.activeIndex < 0 ) {
-              if (item === undefined) {
+              if (item === undefined || item === null) {
                 item = ctrl.tagging.fct !== undefined ? ctrl.tagging.fct(ctrl.search) : ctrl.search;
               }
               if (!item || angular.equals( ctrl.items[0], item ) ) {
@@ -407,7 +407,7 @@ uis.controller('uiSelectCtrl',
             if ( ctrl.activeIndex === 0 ) {
               // ctrl.tagging pushes items to ctrl.items, so we only have empty val
               // for `item` if it is a detected duplicate
-              if ( item === undefined ) return;
+              if ( item === undefined || item === null) return;
 
               // create new item on the fly if we don't already have one;
               // use tagging function if we have one
@@ -462,7 +462,7 @@ uis.controller('uiSelectCtrl',
   };
 
   ctrl.clear = function($event) {
-    ctrl.select(undefined);
+    ctrl.select(null);
     $event.stopPropagation();
     $timeout(function() {
       ctrl.focusser[0].focus();

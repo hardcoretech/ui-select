@@ -11,6 +11,11 @@ uis.directive('uiSelectSingle', ['$timeout','$compile', function($timeout, $comp
       ngModel.$parsers.unshift(function (inputValue) {
         var locals = {},
             result;
+
+        if (inputValue === undefined || inputValue === null) {
+          return inputValue;
+        }
+
         locals[$select.parserResult.itemName] = inputValue;
         result = $select.parserResult.modelMapper(scope, locals);
         return result;

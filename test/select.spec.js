@@ -1623,7 +1623,11 @@ describe('ui-select tests', function() {
     scope.fetchFromServer = function(){};
 
     spyOn(scope, 'fetchFromServer');
-
+	
+	el.scope().$select.activate();
+	scope.$digest();
+    $timeout.flush();
+	
     el.scope().$select.search = 'r';
     scope.$digest();
     $timeout.flush();
@@ -1651,7 +1655,11 @@ describe('ui-select tests', function() {
     scope.fetchFromServer = function(){};
 
     spyOn(scope, 'fetchFromServer');
-
+	
+	el.scope().$select.activate();
+    scope.$digest();
+    $timeout.flush();
+	
     el.scope().$select.search = 'r';
     scope.$digest();
     $timeout.flush();
@@ -3106,6 +3114,7 @@ describe('ui-select tests', function() {
        spyOn(scope, 'fetchFromServer'); 
        expect(el.scope().$select.open).toEqual(false);
        el.scope().$select.activate();
+	   scope.$digest();
        $timeout.flush();
        expect(el.scope().$select.open).toEqual(true);
        expect(scope.fetchFromServer.calls.any()).toEqual(true);

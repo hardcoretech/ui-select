@@ -3099,4 +3099,28 @@ describe('ui-select tests', function() {
     });
   });
 
+  describe('With refresh on active', function(){
+    it('should refresh when is activated', function(){
+       scope.fetchFromServer = function(){};
+       var el = createUiSelect({refresh:"fetchFromServer($select.search)",refreshDelay:0});
+       spyOn(scope, 'fetchFromServer'); 
+       expect(el.scope().$select.open).toEqual(false);
+       el.scope().$select.activate();
+       $timeout.flush();
+       expect(el.scope().$select.open).toEqual(true);
+       expect(scope.fetchFromServer.calls.any()).toEqual(true);
+     });
+
+
+     it('should refresh when open is set to true', function(){
+       scope.fetchFromServer = function(){};
+       var el = createUiSelect({refresh:"fetchFromServer($select.search)",refreshDelay:0});
+       spyOn(scope, 'fetchFromServer'); 
+       expect(el.scope().$select.open).toEqual(false);
+       openDropdown(el);
+       $timeout.flush();
+       expect(el.scope().$select.open).toEqual(true);
+       expect(scope.fetchFromServer.calls.any()).toEqual(true);
+     });
+   });
 });

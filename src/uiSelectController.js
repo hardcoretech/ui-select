@@ -127,12 +127,14 @@ uis.controller('uiSelectCtrl',
       var searchInput = $element.querySelectorAll('.ui-select-search');
       if (ctrl.$animate && ctrl.$animate.on && ctrl.$animate.enabled(container[0])) {
         var animateHandler = function(elem, phase) {
-          if (phase === 'start' && ctrl.items.length === 0) {
+          if (phase === 'start') {  // don't check item.length, avoid animateHanlder will not be unregister by off()
             // Only focus input after the animation has finished
             ctrl.$animate.off('removeClass', searchInput[0], animateHandler);
-            $timeout(function () {
-              ctrl.focusSearchInput(initSearchValue);
-            });
+            if (ctrl.items.length ===0) {
+              $timeout(function () {
+                ctrl.focusSearchInput(initSearchValue);
+              });
+            }
           } else if (phase === 'close') {
             // Only focus input after the animation has finished
             ctrl.$animate.off('enter', container[0], animateHandler);

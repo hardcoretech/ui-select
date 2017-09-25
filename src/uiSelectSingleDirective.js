@@ -66,7 +66,8 @@ uis.directive('uiSelectSingle', ['$timeout','$compile', function($timeout, $comp
       });
 
       scope.$on('uis:activate', function () {
-        focusser.prop('disabled', true); //Will reactivate it on .close()
+        // Not disable because we still wants to use focusser value in "activate"
+        // focusser.prop('disabled', true); //Will reactivate it on .close()
       });
 
       //Idea from: https://github.com/ivaynberg/select2/blob/79b5bf6db918d7560bdd959109b7bcfb47edaf43/select2.js#L1954
@@ -117,8 +118,7 @@ uis.directive('uiSelectSingle', ['$timeout','$compile', function($timeout, $comp
           return;
         }
 
-        $select.activate(focusser.val()); //User pressed some regular key, so we pass it to the search input
-        focusser.val('');
+        $select.activate(focusser); //User pressed some regular key, so we pass it to the search input
         scope.$digest();
 
       });

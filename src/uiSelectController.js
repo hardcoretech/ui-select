@@ -110,7 +110,7 @@ uis.controller('uiSelectCtrl',
     }
 
   // When the user clicks on ui-select, displays the dropdown list
-  ctrl.activate = function(initSearchValue, avoidReset) {
+  ctrl.activate = function(focusser, avoidReset) {
     if (!ctrl.disabled  && !ctrl.open) {
       if(!avoidReset) _resetSearchInput();
 
@@ -132,14 +132,14 @@ uis.controller('uiSelectCtrl',
             ctrl.$animate.off('removeClass', searchInput[0], animateHandler);
             if (ctrl.items.length ===0) {
               $timeout(function () {
-                ctrl.focusSearchInput(initSearchValue);
+                ctrl.focusSearchInput(focusser);
               });
             }
           } else if (phase === 'close') {
             // Only focus input after the animation has finished
             ctrl.$animate.off('enter', container[0], animateHandler);
             $timeout(function () {
-              ctrl.focusSearchInput(initSearchValue);
+              ctrl.focusSearchInput(focusser);
             });
           }
         };
@@ -151,7 +151,7 @@ uis.controller('uiSelectCtrl',
         }
       } else {
         $timeout(function () {
-          ctrl.focusSearchInput(initSearchValue);
+          ctrl.focusSearchInput(focusser);
           if(!ctrl.tagging.isActivated && ctrl.items.length > 1) {
             _ensureHighlightVisible();
           }
@@ -164,9 +164,14 @@ uis.controller('uiSelectCtrl',
     }
   };
 
-  ctrl.focusSearchInput = function (initSearchValue) {
+  ctrl.focusSearchInput = function (focusser) {
+    var initSearchValue = focusser ? focusser.val() : focusser;
     ctrl.search = initSearchValue || ctrl.search;
     ctrl.searchInput[0].focus();
+
+    if (focusser) {
+      focusser.val('');
+    }
   };
 
   ctrl.findGroupByName = function(name) {
@@ -428,7 +433,7 @@ uis.controller('uiSelectCtrl',
             ctrl.close(skipFocusser);
             return;
           }
-        }        
+        }
         _resetSearchInput();
         $scope.$broadcast('uis:select', item);
 

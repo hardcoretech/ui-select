@@ -476,6 +476,11 @@ uis.controller('uiSelectCtrl',
     }, 0, false);
   };
 
+  ctrl.openMatchLink = function($event) {
+    window.open(ctrl.matchLink, '_blank');
+    $event.stopPropagation();
+  };
+
   // Toggle dropdown
   ctrl.toggle = function(e) {
     if (ctrl.open) {

@@ -28,6 +28,13 @@ uis.directive('uiSelectMatch', ['uiSelectConfig', function(uiSelectConfig) {
       attrs.$observe('allowClear', setAllowClear);
       setAllowClear(attrs.allowClear);
 
+      function setMatchLink(link) {
+        $select.matchLink = angular.isDefined(link) ? link : null;
+      }
+
+      attrs.$observe('matchLink', setMatchLink);
+      setMatchLink(attrs.matchLink);
+
       if($select.multiple){
         $select.sizeSearchInput();
       }

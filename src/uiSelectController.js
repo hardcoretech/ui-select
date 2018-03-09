@@ -315,6 +315,20 @@ uis.controller('uiSelectCtrl',
     }
   };
 
+  ctrl.loadMoreResults = function () {
+    if (!ctrl.loadMoreAttr) {
+      return;
+    }
+    $scope.$eval(ctrl.loadMoreAttr);
+  };
+
+  ctrl.hasMoreResults = function () {
+    if (!ctrl.loadMoreAttr || !ctrl.hasMoreAttr) {
+      return false;
+    }
+    return $scope.$eval(ctrl.hasMoreAttr);
+  };
+
   ctrl.isActive = function(itemScope) {
     if ( !ctrl.open ) {
       return false;
@@ -585,6 +599,7 @@ uis.controller('uiSelectCtrl',
       case KEY.DOWN:
         if (!ctrl.open && ctrl.multiple) ctrl.activate(false, true); //In case its the search input in 'multiple' mode
         else if (ctrl.activeIndex < ctrl.items.length - 1) { ctrl.activeIndex++; }
+        else if ((ctrl.activeIndex === ctrl.items.length - 1) && ctrl.hasMoreResults()) { ctrl.loadMoreResults(); }
         break;
       case KEY.UP:
         if (!ctrl.open && ctrl.multiple) ctrl.activate(false, true); //In case its the search input in 'multiple' mode

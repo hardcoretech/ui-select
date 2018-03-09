@@ -58,6 +58,8 @@ uis.directive('uiSelectChoices',
         $select.disableChoiceExpression = attrs.uiDisableChoice;
         $select.onHighlightCallback = attrs.onHighlight;
         $select.dropdownPosition = attrs.position ? attrs.position.toLowerCase() : uiSelectConfig.dropdownPosition;        
+        $select.loadMoreAttr = attrs.loadMore;
+        $select.hasMoreAttr = attrs.hasMore;
 
         scope.$on('$destroy', function() {
           choices.remove();

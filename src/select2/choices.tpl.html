@@ -8,4 +8,10 @@
       </li>
     </ul>
   </li>
+  <li ng-if="$select.loadMoreAttr">
+    <div ng-show="!$select.hasMoreResults()">&nbsp;</div>
+    <button ng-show="$select.hasMoreResults()" ng-click="$select.loadMoreResults()" type="button" class="btn btn-xs td-100per">
+      <i class="fa fa-sort-down"></i>
+    </button>
+  </li>
 </ul>

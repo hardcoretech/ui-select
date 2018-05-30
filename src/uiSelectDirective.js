@@ -324,6 +324,7 @@ uis.directive('uiSelect',
 
           dropdown[0].style.position = 'absolute';
           dropdown[0].style.top = (offsetDropdown.height * -1) + 'px';
+          dropdown[0].style.left = '';
           element.addClass(directionUpClassName);
 
         };
@@ -337,6 +338,15 @@ uis.directive('uiSelect',
 
           dropdown[0].style.position = '';
           dropdown[0].style.top = '';
+          dropdown[0].style.left = '';
+
+        };
+
+        var setDropdownPosLeft = function(offset, offsetDropdown) {
+  
+          var droppdownPosLeft = offsetDropdown.width - offset.width;
+          dropdown[0].style.position = 'absolute';
+          dropdown[0].style.left = -droppdownPosLeft + 'px';
 
         };
 
@@ -363,6 +373,11 @@ uis.directive('uiSelect',
               }else{
                 //Go DOWN
                 setDropdownPosDown(offset, offsetDropdown);
+              }
+              var offsetLeft = offset.left + offsetDropdown.width;
+              var documentWidth = $document[0].documentElement.clientWidth;
+              if (offsetLeft > documentWidth) {
+                setDropdownPosLeft(offset, offsetDropdown);
               }
             }
 

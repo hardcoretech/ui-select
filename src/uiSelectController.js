@@ -43,6 +43,7 @@ uis.controller('uiSelectCtrl',
   ctrl.tagging = {isActivated: false, fct: undefined};
   ctrl.taggingTokens = {isActivated: false, tokens: undefined};
   ctrl.lockChoiceExpression = undefined; // Initialized inside uiSelectMatch directive link function
+  ctrl.onAdvanceSearchClickExpression = undefined;
   ctrl.clickTriggeredSelect = false;
   ctrl.$filter = $filter;
   ctrl.$element = $element;
@@ -493,6 +494,12 @@ uis.controller('uiSelectCtrl',
   ctrl.openMatchLink = function($event) {
     window.open(ctrl.matchLink, '_blank');
     $event.stopPropagation();
+  };
+
+  ctrl.onAdvanceSearchClick = function() {
+    if (angular.isDefined(ctrl.onAdvanceSearchClickExpression)) {
+      $scope.$eval(ctrl.onAdvanceSearchClickExpression);
+    }
   };
 
   // Toggle dropdown

@@ -15,6 +15,10 @@
        aria-label="{{ $select.baseTitle }}"
              class="ui-select-search select2-input"
              ng-model="$select.search">
+
+      <button ng-if="$select.onAdvanceSearchClickExpression"
+              ng-click="$select.onAdvanceSearchClick()"
+              class="{{ $select.advanceSearchClass }}">Advance</button>
     </div>
     <div class="ui-select-choices"></div>
     <div class="ui-select-no-choice"></div>

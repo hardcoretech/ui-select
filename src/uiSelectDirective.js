@@ -43,6 +43,7 @@ uis.directive('uiSelect',
         $select.baseTitle = attrs.title || 'Select box';
         $select.focusserTitle = $select.baseTitle + ' focus';
         $select.focusserId = 'focusser-' + $select.generatedId;
+        $select.onAdvanceSearchClickExpression = attrs.onAdvanceSearchClick;
 
         $select.closeOnSelect = function() {
           if (angular.isDefined(attrs.closeOnSelect)) {
@@ -152,6 +153,11 @@ uis.directive('uiSelect',
         attrs.$observe('spinnerClass', function() {
           var spinnerClass = attrs.spinnerClass;
           $select.spinnerClass = spinnerClass !== undefined ? attrs.spinnerClass : uiSelectConfig.spinnerClass;
+        });
+
+        attrs.$observe('advanceSearchClass', function() {
+          var advanceSearchClass = attrs.advanceSearchClass;
+          $select.advanceSearchClass = advanceSearchClass !== undefined ? attrs.advanceSearchClass : uiSelectConfig.advanceSearchClass;
         });
 
         //Automatically gets focus when loaded

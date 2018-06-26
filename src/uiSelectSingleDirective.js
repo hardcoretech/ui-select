@@ -94,7 +94,7 @@ uis.directive('uiSelectSingle', ['$timeout','$compile', function($timeout, $comp
         if (e.which === KEY.BACKSPACE) {
           e.preventDefault();
           e.stopPropagation();
-          $select.select(undefined);
+          $select.select(null);
           scope.$apply();
           return;
         }

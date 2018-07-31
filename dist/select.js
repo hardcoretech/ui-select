@@ -1,7 +1,7 @@
 /*!
  * ui-select
  * http://github.com/angular-ui/ui-select
- * Version: 0.19.6 - 2018-07-31T08:23:01.466Z
+ * Version: 0.19.6 - 2018-07-31T09:38:57.330Z
  * License: MIT
  */
 
@@ -1229,9 +1229,12 @@ uis.directive('uiSelect',
 
         //Automatically gets focus when loaded
         if (angular.isDefined(attrs.autofocus)){
-          $timeout(function(){
-            $select.setFocus();
-          });
+          var autofocus = scope.$eval(attrs.autofocus);
+          if (autofocus) {
+            $timeout(function(){
+              $select.setFocus();
+            }, 100);
+          }
         }
 
         //Gets focus based on scope event name (e.g. focus-on='SomeEventName')

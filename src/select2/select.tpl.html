@@ -16,11 +16,14 @@
              class="ui-select-search select2-input"
              ng-model="$select.search">
 
-      <button ng-if="$select.onAdvanceSearchClickExpression"
-              ng-click="$select.onAdvanceSearchClick()"
-              class="{{ $select.advanceSearchClass }}"
-              type="button"
-      >Advance</button>
+      <div class="select2-search__btn-group"
+           ng-if="$select.functionalButtonGroup">
+        <button ng-repeat="btn in $select.functionalButtonGroup track by $index"
+                class="{{ btn.attrClass }}"
+                uib-tooltip="{{ btn.tooltip }}"
+                ng-click="btn.onClick()"
+        ><span ng-bind-html="btn.content"></span></button>
+     </div>
     </div>
     <div class="ui-select-choices"></div>
     <div class="ui-select-no-choice"></div>

@@ -19,6 +19,7 @@
       <div class="select2-search__btn-group"
            ng-if="$select.functionalButtonGroup">
         <button ng-repeat="btn in $select.functionalButtonGroup track by $index"
+                type="button"
                 class="{{ btn.attrClass }}"
                 uib-tooltip="{{ btn.tooltip }}"
                 ng-click="btn.onClick()"

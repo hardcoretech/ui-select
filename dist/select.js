@@ -1,7 +1,7 @@
 /*!
  * ui-select
  * http://github.com/angular-ui/ui-select
- * Version: 0.19.6 - 2018-10-04T11:10:07.393Z
+ * Version: 0.19.6.hc.3 - 2018-10-09T11:56:04.760Z
  * License: MIT
  */
 
@@ -403,32 +403,23 @@ uis.controller('uiSelectCtrl',
         ctrl.activeIndex = 0;
       }
 
-      var container = $element.querySelectorAll('.ui-select-choices-content');
-      var searchInput = $element.querySelectorAll('.ui-select-search');
-      if (ctrl.$animate && ctrl.$animate.on && ctrl.$animate.enabled(container[0])) {
-        var animateHandler = function(elem, phase) {
-          if (phase === 'start') {  // don't check item.length, avoid animateHanlder will not be unregister by off()
-            // Only focus input after the animation has finished
-            ctrl.$animate.off('removeClass', searchInput[0], animateHandler);
-            if (ctrl.items.length ===0) {
-              $timeout(function () {
-                ctrl.focusSearchInput(focusser);
-              });
-            }
-          } else if (phase === 'close') {
-            // Only focus input after the animation has finished
-            ctrl.$animate.off('enter', container[0], animateHandler);
-            $timeout(function () {
-              ctrl.focusSearchInput(focusser);
-            });
+      var dropdown = $element.querySelectorAll('.ui-select-dropdown');
+      if (ctrl.$animate && ctrl.$animate.on && ctrl.$animate.enabled(dropdown[0])) {
+        function focusSearchInputIfDropdownVisible() {
+          if ($(dropdown[0]).css('display') === 'none') { // skip if dropdown not display
+            return;
           }
+
+          ctrl.$animate.off('removeClass', dropdown[0], focusSearchInputIfDropdownVisible);
+          $timeout(function () {
+            ctrl.focusSearchInput(focusser);
+          });
         };
 
-        if (ctrl.items.length > 0) {
-          ctrl.$animate.on('enter', container[0], animateHandler);
-        } else {
-          ctrl.$animate.on('removeClass', searchInput[0], animateHandler);
-        }
+        // removeClass will be triggered by ngClass on ui-select-dropdown
+        // Note: original version of ui-select will waiting for refreshing animation on ui-select-search
+        //       But, we don't have that kind of animations, thus removed.
+        ctrl.$animate.on('removeClass', dropdown[0], focusSearchInputIfDropdownVisible);
       } else {
         $timeout(function () {
           ctrl.focusSearchInput(focusser);
@@ -2159,7 +2150,8 @@ uis.directive('uiSelectSingle', ['$timeout','$compile', function($timeout, $comp
       //Input that will handle focus
       $select.focusInput = focusser;
 
-      element.parent().append(focusser);
+      // insert focusser outside select2-container to avoid appendToBody
+      element.parent().after(focusser);
       focusser.bind("focus", function(){
         scope.$evalAsync(function(){
           $select.focus = true;

@@ -78,7 +78,8 @@ uis.directive('uiSelectSingle', ['$timeout','$compile', function($timeout, $comp
       //Input that will handle focus
       $select.focusInput = focusser;
 
-      element.parent().append(focusser);
+      // insert focusser outside select2-container to avoid appendToBody
+      element.parent().after(focusser);
       focusser.bind("focus", function(){
         scope.$evalAsync(function(){
           $select.focus = true;

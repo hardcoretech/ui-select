@@ -334,20 +334,12 @@ uis.directive('uiSelect',
 
         // Patch: hide dropdown on pressing ESC while no items on search result
         // Patch: prevent losing focus on pressing TAB while no items on search result
-        var watchRefreshingHelpers = (function () {
+        var searchInputKeydownHelpers = (function () {
           function escKeyCloseDropdown($event) {
             if ($event.keyCode === KEY.ESC) {
               $timeout(function() {
                 $select.close();
                 $select.setFocus();
-              });
-            }
-          }
-
-          function tabKeyFocusOnInput($event) {
-            if ($event.keyCode === KEY.TAB) {
-              $timeout(function() {
-                $select.searchInput[0].focus();
               });
             }
           }
@@ -361,22 +353,12 @@ uis.directive('uiSelect',
 
           return {
             escKeyCloseDropdown: escKeyCloseDropdown,
-            tabKeyFocusOnInput: tabKeyFocusOnInput,
             tabKeyIgnoreDefault: tabKeyIgnoreDefault,
           };
         })();
 
-        $select.searchInput.bind('keydown', watchRefreshingHelpers.escKeyCloseDropdown);
-
-        scope.$watch('$select.refreshing', function(isRefreshing) {
-          if (isRefreshing) {
-            $select.searchInput.unbind('keydown', watchRefreshingHelpers.tabKeyFocusOnInput);
-            $select.searchInput.bind('keydown', watchRefreshingHelpers.tabKeyIgnoreDefault);
-          } else {
-            $select.searchInput.unbind('keydown', watchRefreshingHelpers.tabKeyIgnoreDefault);
-            $select.searchInput.bind('keydown', watchRefreshingHelpers.tabKeyFocusOnInput);
-          }
-        });
+        $select.searchInput.bind('keydown', searchInputKeydownHelpers.escKeyCloseDropdown);
+        $select.searchInput.bind('keydown', searchInputKeydownHelpers.tabKeyIgnoreDefault);
 
         var setDropdownPosUp = function(offset, offsetDropdown){
 

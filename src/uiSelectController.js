@@ -126,7 +126,7 @@ uis.controller('uiSelectCtrl',
 
       var dropdown = $element.querySelectorAll('.ui-select-dropdown');
       if (ctrl.$animate && ctrl.$animate.on && ctrl.$animate.enabled(dropdown[0])) {
-        function focusSearchInputIfDropdownVisible() {
+        var focusSearchInputIfDropdownVisible = function () {
           if ($(dropdown[0]).css('display') === 'none') { // skip if dropdown not display
             return;
           }

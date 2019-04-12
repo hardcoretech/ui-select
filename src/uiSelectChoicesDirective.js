@@ -61,6 +61,9 @@ uis.directive('uiSelectChoices',
         $select.loadMoreAttr = attrs.loadMore;
         $select.hasMoreAttr = attrs.hasMore;
 
+        $select.appScope = scope.$eval(attrs.appScopeProvider);
+        $select.footerTemplateUrl = scope.$eval(attrs.footerTemplateUrl);
+
         scope.$on('$destroy', function() {
           choices.remove();
         });

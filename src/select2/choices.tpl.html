@@ -14,4 +14,7 @@
       <i class="fa fa-sort-down"></i>
     </button>
   </li>
+  <li ng-if="$select.footerTemplateUrl">
+      <ng-include src="$select.footerTemplateUrl"></ng-include>
+  </li>
 </ul>

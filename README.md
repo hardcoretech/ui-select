@@ -36,7 +36,7 @@ $ bower install angular-ui-select
 ## Development
 
 ### Prepare your environment
-* Install [Node.js](http://nodejs.org/) and NPM (should come with)
+[* Install [Node.js](http://nodejs.org/) and NPM (should come with), version 6.11.3
 * Install global dev dependencies: `npm install -g gulp`
 * Install local dev dependencies: `npm install` in repository directory
 

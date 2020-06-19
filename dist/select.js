@@ -1,7 +1,7 @@
 /*!
  * ui-select
  * http://github.com/angular-ui/ui-select
- * Version: 0.19.6-hc.5 - 2020-06-16T08:55:18.093Z
+ * Version: 0.19.6-hc.6 - 2020-06-19T07:56:11.727Z
  * License: MIT
  */
 
@@ -1272,7 +1272,8 @@ uis.directive('uiSelect',
               //Will lose focus only with certain targets
               var focusableControls = ['input','button','textarea','select'];
               var targetController = angular.element(e.target).controller('uiSelect'); //To check if target is other ui-select
-              skipFocusser = targetController && targetController !== $select; //To check if target is other ui-select
+              var isTargetNgSelect = e.target.classList.contains('ng-input'); //To check if target is ng-select
+              skipFocusser = (targetController && targetController !== $select) || isTargetNgSelect; //To check if target is other ui-select or ng-select
               if (!skipFocusser) skipFocusser =  ~focusableControls.indexOf(e.target.tagName.toLowerCase()); //Check if target is input, button or textarea
             } else {
               skipFocusser = true;
@@ -1498,7 +1499,7 @@ uis.directive('uiSelect',
         };
 
         var opened = false;
-        
+
         scope.calculateDropdownPos = function() {
           if ($select.open) {
             dropdown = angular.element(element).querySelectorAll('.ui-select-dropdown');

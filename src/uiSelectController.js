@@ -48,6 +48,9 @@ uis.controller('uiSelectCtrl',
   ctrl.$filter = $filter;
   ctrl.$element = $element;
 
+  ctrl.rTimeoutId = undefined;
+  ctrl.rDelta = 50;
+
   // Use $injector to check for $animate and store a reference to it
   ctrl.$animate = (function () {
     try {
@@ -567,7 +570,7 @@ uis.controller('uiSelectCtrl',
         };
 
     ctrl.searchInput.css('width', '10px');
-    $timeout(function() { //Give tags time to render correctly
+    setTimeout(function() { //Give tags time to render correctly
       if (sizeWatch === null && !updateIfVisible(calculateContainerWidth())) {
         sizeWatch = $scope.$watch(function() {
           if (!updaterScheduled) {
@@ -747,15 +750,25 @@ uis.controller('uiSelectCtrl',
     }
   }
 
-  var onResize = $$uisDebounce(function() {
+  // KK: Not using uisDebounce for sizing SearchInput because $digest cycles will be triggered by $timeout
+  //     during Angular's change detection (which is also triggered on every async event) phase. Either use setTimeout or
+  //     putting the code into $evalAsync to make it run after the DOM has been manipulated by Angular, but before the
+  //     browser renders it. see https://indepth.dev/angulars-digest-is-reborn-in-the-newer-version-of-angular/,
+  //     https://stackoverflow.com/questions/17301572/whats-the-difference-between-evalasync-and-timeout-in-angularjs
+  function onResizeEnd() {
     ctrl.sizeSearchInput();
-  }, 50);
+  }
 
-  angular.element($window).bind('resize', onResize);
+  $(window).resize(function() {
+    ctrl.rTime = new Date();
+    if (ctrl.rTimeoutId !== undefined) {
+      clearTimeout(ctrl.rTimeoutId);
+    }
+    ctrl.rTimeoutId = setTimeout(onResizeEnd, ctrl.rDelta);
+  });
 
   $scope.$on('$destroy', function() {
     ctrl.searchInput.off('keyup keydown tagged blur paste');
-    angular.element($window).off('resize', onResize);
   });
 
   $scope.$watch('$select.activeIndex', function(activeIndex) {
